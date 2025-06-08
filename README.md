@@ -1,6 +1,6 @@
-# metapagekit README
+# MetaPageKit
 
-This is the README for your extension "metapagekit". After writing up a brief description, we recommend including the following sections.
+MetaP's toolkit to aid in the creation of static HTML files and web sites.
 
 ## Features
 
