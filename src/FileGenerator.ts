@@ -2,7 +2,7 @@ import * as vscode from 'vscode';
 import * as path from 'path';
 import * as fs from 'fs';
 
-export class FileCreator {
+export class FileGenerator {
     private readonly templateExtension = '.html';
 
     private readonly extension: vscode.ExtensionContext;
@@ -51,14 +51,23 @@ export class FileCreator {
 
     /**
      * Adds a new HTML file to the workspace using a selected template.
-     * Prompts the user to select a template and enter a file name.
-     * Creates the file in the first workspace folder.
+     * If a URI is provided (from Explorer), uses that folder; otherwise, uses the first workspace folder.
      */
-    public async addFile() {
-        const folders = vscode.workspace.workspaceFolders;
-        if (!folders) {
-            vscode.window.showErrorMessage('No workspace folder open.');
-            return;
+    public async generateFile(uri?: vscode.Uri) {
+        let folderUri: vscode.Uri | undefined;
+
+        if (uri) {
+            // If the URI is a file, use its parent folder
+            folderUri = fs.statSync(uri.fsPath).isDirectory()
+                ? uri // If the provided URI is a directory, use it directly.
+                : vscode.Uri.file(path.dirname(uri.fsPath)); // If it's a file, use its parent directory.
+        } else { // If no URI is provided, use the first workspace folder
+            const folders = vscode.workspace.workspaceFolders;
+            if (!folders) {
+                vscode.window.showErrorMessage('No workspace folder open.', { modal: true });
+                return;
+            }
+            folderUri = folders[0].uri;
         }
 
         const template = await vscode.window.showQuickPick(this.templates, {
@@ -71,7 +80,6 @@ export class FileCreator {
 
         const templatePath = path.join(this.templatesPath, template + this.templateExtension);
 
-        const folderUri = folders[0].uri;
         const fileName = await vscode.window.showInputBox({
             prompt: 'Enter a name for the new file',
             value: 'index.html'
@@ -84,7 +92,7 @@ export class FileCreator {
         const filePath = path.join(folderUri.fsPath, fileName);
 
         if (fs.existsSync(filePath)) {
-            vscode.window.showErrorMessage('File already exists!');
+            vscode.window.showErrorMessage('File already exists!', { modal: true });
             return;
         }
 

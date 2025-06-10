@@ -14,15 +14,20 @@
   "contributes": {
     "commands": [
       {
-        "command": "metapagekit.helloWorld",
-        "title": "Hello World"
-      },
-      {
-        "command": "metapagekit.addFile",
-        "title": "Add file",
-        "description": "Generates a new file based on a selected template and inserts it into the current folder."
+        "command": "metapagekit.generateFile",
+        "title": "Generate File...",
+        "description": "Generates a new file based on a selected template."
       }
-    ]
+    ],
+    "menus": {
+      "explorer/context": [
+        {
+          "command": "metapagekit.generateFile",
+          "when": "explorerResourceIsFolder",
+          "group": "navigation"
+        }
+      ]
+    }
   },
   "scripts": {
     "vscode:prepublish": "npm run compile && npm run copy-assets",
