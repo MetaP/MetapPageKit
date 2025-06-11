@@ -1,15 +1,13 @@
 import * as assert from 'assert';
-import { suite, test } from 'mocha';
 import { HtmlUtility } from '../../HtmlUtility';
 
 suite('HtmlUtility tests', () => {
-    // vscode.window.showInformationMessage('HtmlUtility tests started');
 
     const util = new HtmlUtility();
 
     test('should format a typical date correctly', () => {
-        const date = new Date(2023, 0, 5); // Jan 5, 2023
-        assert.strictEqual(util.as_DD_MMM_YY(date), '05-Jan-23');
+        const date = new Date(2025, 5, 11); // Jun 11, 2025
+        assert.strictEqual(util.as_DD_MMM_YY(date), '11-Jun-25');
     });
 
     test('should pad single-digit days with a leading zero', () => {
