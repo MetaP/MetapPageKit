@@ -1,0 +1,10 @@
+# Unit test generation instructions
+- Use a separate test file for the tests of each source file
+- Name the test files with the same name as the source files, but with a `.test.ts` suffix
+- Use the `src/test/unit` directory for unit tests
+- Use TypeScript for writing tests
+- Use the `mocha` test framework
+- Use tdd (test-driven development) style for writing tests
+- Create a separate suite to group the tests of each function
+- Put the test suites in the test file in the same order as the corresponding functions in the source file
+- Use '<name> tests' as the title of the suite, where `<name>` is the name of the function being tested
