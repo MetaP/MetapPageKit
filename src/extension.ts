@@ -1,5 +1,5 @@
 import * as vscode from 'vscode';
-import { FileGenerator } from './FileGenerator';
+import { FileGenerator } from './file-generator';
 
 // This method is called when your extension is activated
 export function activate(extension: vscode.ExtensionContext) {
