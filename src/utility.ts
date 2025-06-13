@@ -1,5 +1,5 @@
-export class HtmlUtility {
-    private monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+export class Utility {
+    private static monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
     /**
      * Converts a given Date to a string with the format "DD-MMM-YY".
@@ -10,9 +10,9 @@ export class HtmlUtility {
      *   - MMM is the three-letter month abbreviation,
      *   - YY is the last two digits of the year (00-99).
      */
-    public as_DD_MMM_YY(date: Date): string {
+    public static to_DD_MMM_YY(date: Date): string {
         const dd = String(date.getDate()).padStart(2, '0');
-        const mmm = this.monthNames[date.getMonth()];
+        const mmm = Utility.monthNames[date.getMonth()];
         const yy = String(date.getFullYear()).slice(-2);
 
         return `${dd}-${mmm}-${yy}`;
@@ -27,7 +27,7 @@ export class HtmlUtility {
      *   - MM is the two-digit month (01-12),
      *   - DD is the two-digit day (01-31).
      */
-    public as_YYYY_MM_DD(date: Date): string {
+    public static to_YYYY_MM_DD(date: Date): string {
         const yyyy = date.getFullYear();
         const mm = String(date.getMonth() + 1).padStart(2, '0');
         const dd = String(date.getDate()).padStart(2, '0');
@@ -35,20 +35,15 @@ export class HtmlUtility {
         return `${yyyy}-${mm}-${dd}`;
     }
 
-    // Produces a <time> element for the current date in the format:
-    // <time datetime="YYYY-MM-DD">DD-MMM-YY</time>
-
-
     /**
      * Returns an HTML `<time>` element string for the given date.
      *
      * @param date - The Date object to format.
      * @returns A string containing the HTML `<time>` element with the format `<time datetime="YYYY-MM-DD">DD-MMM-YY</time>`.
      */
-    public generateTimeElement(date: Date): string {
-
-        const datetime = this.as_YYYY_MM_DD(date);
-        const display = this.as_DD_MMM_YY(date);
+    public static generateTimeElement(date: Date): string {
+        const datetime = Utility.to_YYYY_MM_DD(date);
+        const display = Utility.to_DD_MMM_YY(date);
 
         return `<time datetime="${datetime}">${display}</time>`;
     }
@@ -58,8 +53,23 @@ export class HtmlUtility {
      *
      * @returns The HTML string for a `<time>` element representing the current date with the format `<time datetime="YYYY-MM-DD">DD-MMM-YY</time>`.
      */
-    public todayAsTimeElement(): string {
+    public static todayAsTimeElement(): string {
         const today = new Date();
-        return this.generateTimeElement(today);
+        return Utility.generateTimeElement(today);
+    }
+
+    /**
+     * Converts a string to a valid file name using kebab-case.
+     * @param input The string to convert.
+     * @returns The kebab-case version of the string without special characters, accents and other character additions.
+     */
+    public static toFilename(input: string): string {
+        return input
+            .normalize('NFD')
+            .replace(/[\u0300-\u036f]/g, '') // Remove accents
+            .replace(/([a-z])([A-Z])/g, '$1-$2')
+            .replace(/[\s_]+/g, '-')
+            .replace(/[^a-zA-Z0-9\-]/g, '') // Remove special characters except hyphen
+            .toLowerCase();
     }
 }
