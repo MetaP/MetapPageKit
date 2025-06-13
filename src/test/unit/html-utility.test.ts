@@ -1,5 +1,5 @@
 import * as assert from 'assert';
-import { HtmlUtility } from '../../HtmlUtility';
+import { HtmlUtility } from '../../html-utility';
 
 suite('HtmlUtility tests', () => {
 
