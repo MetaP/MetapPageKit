@@ -6,5 +6,6 @@
 - Use the `mocha` test framework
 - Use tdd (test-driven development) style for writing tests
 - Create a separate suite to group the tests of each function
+- For a class, create a separate suite to group the tests of each member
 - Put the test suites in the test file in the same order as the corresponding functions in the source file
 - Use '<name> tests' as the title of the suite, where `<name>` is the name of the function being tested
